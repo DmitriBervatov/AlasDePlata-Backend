@@ -21,9 +21,10 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import com.alasdeplata.config.filter.JwtTokenValidator;
-import com.alasdeplata.services.impl.UserDetailServiceImpl;
 import com.alasdeplata.common.JwtUtils;
+import com.alasdeplata.config.filter.JwtTokenValidator;
+import com.alasdeplata.repository.UserRepository;
+import com.alasdeplata.services.impl.UserDetailServiceImpl;
 
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -34,6 +35,9 @@ public class SecurityConfig {
 
     @Autowired
     private JwtUtils jwtUtils;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -49,16 +53,31 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
 
                     http.requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll();
+
+                    http.requestMatchers(HttpMethod.GET, "/api/v1/permissions/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.POST, "/api/v1/permissions/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.PUT, "/api/v1/permissions/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.DELETE, "/api/v1/permissions/**").hasRole("ADMIN");
+
+                    http.requestMatchers(HttpMethod.GET, "/api/v1/users/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.POST, "/api/v1/users/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.PUT, "/api/v1/users/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.DELETE, "/api/v1/users/**").hasRole("ADMIN");
+
                     // Configurar los endpoints privados
-                    http.requestMatchers(HttpMethod.GET, "/api/v1/products/**").hasAnyRole("ADMIN", "USER", "INVITED");
-                    http.requestMatchers(HttpMethod.POST, "/api/v1/products/**").hasAnyRole("ADMIN", "USER");
-                    http.requestMatchers(HttpMethod.PUT, "/api/v1/products/**").hasAnyRole("ADMIN", "USER");
-                    http.requestMatchers(HttpMethod.DELETE, "/api/v1/products/**").hasAnyRole("ADMIN", "USER");
+                    // http.requestMatchers(HttpMethod.GET,
+                    // "/api/v1/products/**").hasAnyRole("ADMIN", "USER", "INVITED");
+                    // http.requestMatchers(HttpMethod.POST,
+                    // "/api/v1/products/**").hasAnyRole("ADMIN", "USER");
+                    // http.requestMatchers(HttpMethod.PUT,
+                    // "/api/v1/products/**").hasAnyRole("ADMIN", "USER");
+                    // http.requestMatchers(HttpMethod.DELETE,
+                    // "/api/v1/products/**").hasAnyRole("ADMIN", "USER");
 
                     // Configurar el resto de endpoints - no especificados
                     http.anyRequest().denyAll();
                 })
-                .addFilterBefore(new JwtTokenValidator(jwtUtils), BasicAuthenticationFilter.class)
+                .addFilterBefore(new JwtTokenValidator(jwtUtils, userRepository), BasicAuthenticationFilter.class)
                 .build();
     }
 

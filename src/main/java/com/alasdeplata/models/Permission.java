@@ -12,7 +12,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Setter
 @Getter
 @Builder
@@ -21,7 +20,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "permissions")
 public class Permission {
-     @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

@@ -5,9 +5,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.alasdeplata.models.UserEntity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,33 +18,34 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.alasdeplata.common.JwtUtils;
 import com.alasdeplata.dto.auth.AuthCreateUserRequest;
 import com.alasdeplata.dto.auth.AuthLoginRequest;
 import com.alasdeplata.dto.auth.AuthResponse;
-import com.alasdeplata.repository.UserRepository;
 import com.alasdeplata.models.Role;
+import com.alasdeplata.models.UserEntity;
 import com.alasdeplata.repository.RoleRepository;
-import com.alasdeplata.common.JwtUtils;
+import com.alasdeplata.repository.UserRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class UserDetailServiceImpl implements UserDetailsService {
-        @Autowired
-        private PasswordEncoder passwordEncoder;
 
-        @Autowired
-        private JwtUtils jwtUtils;
-
-        @Autowired
-        private UserRepository userRepository;
-
-        @Autowired
-        private RoleRepository roleRepository;
+        private final PasswordEncoder passwordEncoder;
+        private final JwtUtils jwtUtils;
+        private final UserRepository userRepository;
+        private final RoleRepository roleRepository;
 
         @Override
         public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
                 UserEntity user = userRepository.findUserPrincipalByUsername(username)
                                 .orElseThrow(() -> new UsernameNotFoundException(
                                                 "El usuario " + username + " no existe."));
+
+                if (!user.isEnabled())
+                        throw new DisabledException("Token no valido");
 
                 List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
 
@@ -91,14 +91,21 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
         public AuthResponse createUser(AuthCreateUserRequest authCreateUserRequest) {
                 String username = authCreateUserRequest.username();
+                String email = authCreateUserRequest.email();
                 String password = authCreateUserRequest.password();
                 List<String> roleRequest = authCreateUserRequest.roleRequest().roleListName();
+
+                if (userRepository.findUserPrincipalByUsername(username).isPresent())
+                        throw new IllegalArgumentException("El nombre de usuario ya existe.");
+
+                if (userRepository.findByEmail(email).isPresent())
+                        throw new IllegalArgumentException("El correo electrónico ya está en uso.");
 
                 Set<Role> roleEntitiesSet = roleRepository.findRoleEntitiesByRoleEnumIn(roleRequest).stream()
                                 .collect(Collectors.toSet());
 
                 if (roleEntitiesSet.isEmpty()) {
-                        throw new IllegalArgumentException("The roles specified does not exist.");
+                        throw new IllegalArgumentException("Los roles especificados no existen.");
                 }
 
                 UserEntity user = UserEntity.builder()

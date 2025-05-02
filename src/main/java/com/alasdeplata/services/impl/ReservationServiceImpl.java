@@ -3,24 +3,27 @@ package com.alasdeplata.services.impl;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alasdeplata.dto.reservation.ReservationRequest;
 import com.alasdeplata.dto.reservation.ReservationResponse;
 import com.alasdeplata.mapper.ReservationMapper;
 import com.alasdeplata.models.Reservation;
+import com.alasdeplata.repository.FlightRepository;
 import com.alasdeplata.repository.ReservationRepository;
+import com.alasdeplata.repository.UserRepository;
 import com.alasdeplata.services.ReservationService;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class ReservationServiceImpl implements ReservationService {
 
-    @Autowired
-    private ReservationRepository reservationRepository;
-
-    @Autowired
-    private ReservationMapper reservationMapper;
+    private final ReservationRepository reservationRepository;
+    private final ReservationMapper reservationMapper;
+    private final UserRepository userRepository;
+    private final FlightRepository flightRepository;
 
     @Override
     public List<ReservationResponse> getAllReservations() {
@@ -39,6 +42,17 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ReservationResponse createReservation(ReservationRequest reservation) {
         Reservation entity = reservationMapper.toEntity(reservation);
+
+        if (reservation.userId() != null) {
+            entity.setUser(userRepository.findById(reservation.userId())
+                    .orElseThrow(() -> new RuntimeException("User not found")));
+        }
+
+        if (reservation.flightId() != null) {
+            entity.setFlight(flightRepository.findById(reservation.flightId())
+                    .orElseThrow(() -> new RuntimeException("Flight not found")));
+        }
+
         Reservation saved = reservationRepository.save(entity);
         return reservationMapper.toResponse(saved);
     }

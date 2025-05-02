@@ -13,6 +13,7 @@ import com.alasdeplata.models.Passenger;
 
 @Mapper(componentModel = "spring")
 public interface PassengerMapper {
+    @Mapping(target = "userId", source = "user.id")
     PassengerResponse toResponse(Passenger passenger);
 
     @Mapping(target = "id", ignore = true)

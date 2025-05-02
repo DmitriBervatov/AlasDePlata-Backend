@@ -10,6 +10,7 @@ import com.alasdeplata.dto.seat.SeatResponse;
 import com.alasdeplata.dto.seat.SeatUpdateRequest;
 import com.alasdeplata.mapper.SeatMapper;
 import com.alasdeplata.models.Seat;
+import com.alasdeplata.repository.FlightRepository;
 import com.alasdeplata.repository.SeatRepository;
 import com.alasdeplata.services.SeatService;
 
@@ -21,6 +22,7 @@ public class SeatServiceImpl implements SeatService {
 
     private final SeatRepository seatRepository;
     private final SeatMapper seatMapper;
+    private final FlightRepository flightRepository;
 
     @Override
     public List<SeatResponse> getAllSeats() {
@@ -38,6 +40,10 @@ public class SeatServiceImpl implements SeatService {
     @Override
     public SeatResponse createSeat(SeatRequest item) {
         Seat seat = seatMapper.toEntity(item);
+
+        seat.setFlight(flightRepository.findById(item.flightId())
+                .orElseThrow(() -> new RuntimeException("Flight not found")));
+
         Seat savedSeat = seatRepository.save(seat);
         return seatMapper.toResponse(savedSeat);
     }

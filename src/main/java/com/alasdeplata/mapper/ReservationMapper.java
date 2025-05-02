@@ -12,6 +12,8 @@ import com.alasdeplata.models.Reservation;
 
 @Mapper(componentModel = "spring")
 public interface ReservationMapper {
+    @Mapping(target = "userId", source = "user.id")
+    @Mapping(target = "flightId", source = "flight.id")
     ReservationResponse toResponse(Reservation reservation);
 
     @Mapping(target = "id", ignore = true)

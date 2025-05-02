@@ -2,6 +2,7 @@ package com.alasdeplata.mapper;
 
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
@@ -12,6 +13,7 @@ import com.alasdeplata.models.AiInteraction;
 
 @Mapper(componentModel = "spring")
 public interface AiInteractionMapper {
+    @Mapping(target = "userId", source = "user.id")
     AiInteractionResponse toResponse(AiInteraction aiInteraction);
 
     AiInteraction toEntity(AiInteractionRequest data);

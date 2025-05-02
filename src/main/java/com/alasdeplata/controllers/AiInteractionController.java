@@ -1,5 +1,7 @@
 package com.alasdeplata.controllers;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +27,16 @@ public class AiInteractionController {
 
     private final AiInteractionService aiInteractionService;
 
+    @GetMapping
+    public ResponseEntity<List<AiInteractionResponse>> getAllAiInteractions() {
+        return ResponseEntity.ok(aiInteractionService.getAllAiInteractions());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AiInteractionResponse> getAiInteractionById(@PathVariable Long id) {
+        return ResponseEntity.ok(aiInteractionService.getAiInteractionById(id));
+    }
+
     @PostMapping
     public ResponseEntity<AiInteractionResponse> createAiInteraction(@RequestBody @Valid AiInteractionRequest data) {
         return ResponseEntity.ok(aiInteractionService.createAiInteraction(data));
@@ -34,11 +46,6 @@ public class AiInteractionController {
     public ResponseEntity<AiInteractionResponse> updateAiInteraction(@PathVariable Long id,
             @RequestBody @Valid AiInteractionUpdateRequest data) {
         return ResponseEntity.ok(aiInteractionService.updateAiInteraction(id, data));
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<AiInteractionResponse> getAiInteractionById(@PathVariable Long id) {
-        return ResponseEntity.ok(aiInteractionService.getAiInteractionById(id));
     }
 
     @DeleteMapping("/{id}")

@@ -28,5 +28,5 @@ public class Airplane {
     private Integer capacity;
 
     @Column(name = "registration_number", unique = true)
-    private String registrationnumber;
+    private String registrationNumber;
 }

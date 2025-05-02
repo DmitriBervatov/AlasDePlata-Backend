@@ -40,6 +40,16 @@ public class ReservationController {
         return new ResponseEntity<>(items, HttpStatus.OK);
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<ReservationResponse> getById(@PathVariable() Long id) {
+        ReservationResponse item = reservationService.getReservationById(id).orElse(null);
+
+        if (item == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(item, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<ReservationResponse> create(@Valid @RequestBody ReservationRequest reservation) {
         ReservationResponse savedItem = reservationService.createReservation(reservation);

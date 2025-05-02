@@ -1,7 +1,8 @@
 package com.alasdeplata.dto.permissions;
 
+import jakarta.validation.constraints.NotBlank;
+
 public record PermissionRequest(
-    String name
-) {
-    
+        @NotBlank String name) {
+
 }

@@ -2,10 +2,13 @@ package com.alasdeplata.dto.seat;
 
 import com.alasdeplata.enums.FlightClass;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public record SeatRequest(
-        Long flightId,
-        String seatNumber,
-        FlightClass flightClass,
-        Boolean isAvailable) {
+                @NotNull Long flightId,
+                @NotBlank String seatNumber,
+                @NotNull FlightClass flightClass,
+                @NotNull Boolean isAvailable) {
 
 }

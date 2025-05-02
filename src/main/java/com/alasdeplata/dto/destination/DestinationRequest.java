@@ -1,8 +1,10 @@
 package com.alasdeplata.dto.destination;
 
+import jakarta.validation.constraints.NotBlank;
+
 public record DestinationRequest(
-        String city,
-        String country,
-        String airportCode) {
+        @NotBlank String city,
+        @NotBlank String country,
+        @NotBlank String airportCode) {
 
 }

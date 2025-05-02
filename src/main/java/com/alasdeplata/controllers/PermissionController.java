@@ -1,6 +1,5 @@
 package com.alasdeplata.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +18,7 @@ import com.alasdeplata.dto.permissions.PermissionRequest;
 import com.alasdeplata.dto.permissions.PermissionResponse;
 import com.alasdeplata.services.PermissionService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -30,52 +30,32 @@ public class PermissionController {
 
     @GetMapping
     public ResponseEntity<List<PermissionResponse>> getAll() {
-        try {
-            List<PermissionResponse> permissions = permissionService.getAllPermissions();
-            return new ResponseEntity<>(permissions, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<PermissionResponse> permissions = permissionService.getAllPermissions();
+        return new ResponseEntity<>(permissions, HttpStatus.OK);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<PermissionResponse> getById(@PathVariable() Long id) {
-        try {
-            Optional<PermissionResponse> permission = permissionService.getPermissionById(id);
-            return permission.map(ResponseEntity::ok).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Optional<PermissionResponse> permission = permissionService.getPermissionById(id);
+        return permission.map(ResponseEntity::ok).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
-    public ResponseEntity<PermissionResponse> create(@RequestBody PermissionRequest permissionRequest) {
-        try {
-            PermissionResponse savedItem = permissionService.createPermission(permissionRequest);
-            return new ResponseEntity<>(savedItem, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
-        }
+    public ResponseEntity<PermissionResponse> create(@Valid @RequestBody PermissionRequest permissionRequest) {
+        PermissionResponse savedItem = permissionService.createPermission(permissionRequest);
+        return new ResponseEntity<>(savedItem, HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
     public ResponseEntity<PermissionResponse> update(@PathVariable("id") Long id,
             @RequestBody PermissionRequest permissionRequest) {
-        try {
-            PermissionResponse updatedItem = permissionService.updatePermission(id, permissionRequest);
-            return new ResponseEntity<>(updatedItem, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        PermissionResponse updatedItem = permissionService.updatePermission(id, permissionRequest);
+        return new ResponseEntity<>(updatedItem, HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
-        try {
-            permissionService.deletePermission(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
-        }
+        permissionService.deletePermission(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

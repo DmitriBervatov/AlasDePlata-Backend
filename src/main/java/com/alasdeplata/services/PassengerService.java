@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.alasdeplata.dto.passenger.PassengerRequest;
 import com.alasdeplata.dto.passenger.PassengerResponse;
+import com.alasdeplata.dto.passenger.PassengerUpdateRequest;
 
 public interface PassengerService {
 
@@ -13,7 +14,7 @@ public interface PassengerService {
 
     PassengerResponse createPassenger(PassengerRequest passenger);
 
-    PassengerResponse updatePassenger(Long id, PassengerRequest passenger);
+    PassengerResponse updatePassenger(Long id, PassengerUpdateRequest passenger);
 
     void deletePassenger(Long id);
 }

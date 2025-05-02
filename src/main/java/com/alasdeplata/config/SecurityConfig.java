@@ -64,6 +64,51 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.PUT, "/api/v1/users/**").hasRole("ADMIN");
                     http.requestMatchers(HttpMethod.DELETE, "/api/v1/users/**").hasRole("ADMIN");
 
+                    http.requestMatchers(HttpMethod.GET, "/api/v1/flights/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.POST, "/api/v1/flights/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.PUT, "/api/v1/flights/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.DELETE, "/api/v1/flights/**").hasRole("ADMIN");
+
+                    http.requestMatchers(HttpMethod.GET, "/api/v1/flight-prices/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.POST, "/api/v1/flight-prices/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.PUT, "/api/v1/flight-prices/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.DELETE, "/api/v1/flight-prices/**").hasRole("ADMIN");
+
+                    http.requestMatchers(HttpMethod.GET, "/api/v1/destinations/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.POST, "/api/v1/destinations/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.PUT, "/api/v1/destinations/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.DELETE, "/api/v1/destinations/**").hasRole("ADMIN");
+
+                    http.requestMatchers(HttpMethod.GET, "/api/v1/passengers/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.POST, "/api/v1/passengers/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.PUT, "/api/v1/passengers/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.DELETE, "/api/v1/passengers/**").hasRole("ADMIN");
+
+                    http.requestMatchers(HttpMethod.GET, "/api/v1/payments/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.POST, "/api/v1/payments/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.PUT, "/api/v1/payments/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.DELETE, "/api/v1/payments/**").hasRole("ADMIN");
+
+                    http.requestMatchers(HttpMethod.GET, "/api/v1/seats/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.POST, "/api/v1/seats/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.PUT, "/api/v1/seats/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.DELETE, "/api/v1/seats/**").hasRole("ADMIN");
+
+                    http.requestMatchers(HttpMethod.GET, "/api/v1/reservations-passengers/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.POST, "/api/v1/reservations-passengers/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.PUT, "/api/v1/reservations-passengers/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.DELETE, "/api/v1/reservations-passengers/**").hasRole("ADMIN");
+
+                    http.requestMatchers(HttpMethod.GET, "/api/v1/airplane/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.POST, "/api/v1/airplane/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.PUT, "/api/v1/airplane/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.DELETE, "/api/v1/airplane/**").hasRole("ADMIN");
+
+                    http.requestMatchers(HttpMethod.GET, "/api/v1/ai-interactions/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.POST, "/api/v1/ai-interactions/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.PUT, "/api/v1/ai-interactions/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.DELETE, "/api/v1/ai-interactions/**").hasRole("ADMIN");
+
                     // Configurar los endpoints privados
                     // http.requestMatchers(HttpMethod.GET,
                     // "/api/v1/products/**").hasAnyRole("ADMIN", "USER", "INVITED");

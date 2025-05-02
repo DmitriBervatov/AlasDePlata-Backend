@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.alasdeplata.dto.passenger.PassengerRequest;
 import com.alasdeplata.dto.passenger.PassengerResponse;
+import com.alasdeplata.dto.passenger.PassengerUpdateRequest;
 import com.alasdeplata.mapper.PassengerMapper;
 import com.alasdeplata.models.Passenger;
 import com.alasdeplata.repository.PassengerRepository;
@@ -45,15 +46,11 @@ public class PassengerServiceImpl implements PassengerService {
     }
 
     @Override
-    public PassengerResponse updatePassenger(Long id, PassengerRequest passenger) {
-        return passengerRepository.findById(id)
-                .map(existing -> {
-                    Passenger updated = passengerMapper.toEntity(passenger);
-                    updated.setId(id);
-                    Passenger saved = passengerRepository.save(updated);
-                    return passengerMapper.toResponse(saved);
-                })
-                .orElse(null);
+    public PassengerResponse updatePassenger(Long id, PassengerUpdateRequest passenger) {
+        Passenger entity = passengerRepository.findById(id).orElseThrow(() -> new RuntimeException("Passenger not found"));
+        passengerMapper.updatePassengerFromDto(passenger, entity);
+        Passenger updated = passengerRepository.save(entity);
+        return passengerMapper.toResponse(updated);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.alasdeplata.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,12 +30,8 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserResponse>> getAll() {
-        try {
-            List<UserResponse> users = userService.getAllUsers();
-            return new ResponseEntity<>(users, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<UserResponse> users = userService.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping("{id}")
@@ -57,12 +52,8 @@ public class UserController {
 
     @PutMapping("{id}")
     public ResponseEntity<UserResponse> update(@PathVariable() Long id, @RequestBody UserRequest item) {
-        try {
-            UserResponse updatedItem = userService.updateUser(id, item);
-            return new ResponseEntity<>(updatedItem, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
-        }
+        UserResponse updatedItem = userService.updateUser(id, item);
+        return new ResponseEntity<>(updatedItem, HttpStatus.OK);
 
     }
 

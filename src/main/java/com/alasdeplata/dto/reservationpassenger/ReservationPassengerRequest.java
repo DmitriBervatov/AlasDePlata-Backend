@@ -1,8 +1,10 @@
 package com.alasdeplata.dto.reservationpassenger;
 
+import jakarta.validation.constraints.NotNull;
+
 public record ReservationPassengerRequest(
-        Long reservationId,
-        Long passengerId,
-        Long seatId) {
+        @NotNull Long reservationId,
+        @NotNull Long passengerId,
+        @NotNull Long seatId) {
 
 }

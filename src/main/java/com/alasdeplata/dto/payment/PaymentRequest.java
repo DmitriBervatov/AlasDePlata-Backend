@@ -5,10 +5,12 @@ import java.time.LocalDateTime;
 
 import com.alasdeplata.enums.PaymentMethod;
 
+import jakarta.validation.constraints.NotNull;
+
 public record PaymentRequest(
-        Long reservationId,
-        BigDecimal amount,
-        LocalDateTime paymentDate,
-        PaymentMethod paymentMethod) {
+                @NotNull Long reservationId,
+                @NotNull BigDecimal amount,
+                @NotNull LocalDateTime paymentDate,
+                @NotNull PaymentMethod paymentMethod) {
 
 }

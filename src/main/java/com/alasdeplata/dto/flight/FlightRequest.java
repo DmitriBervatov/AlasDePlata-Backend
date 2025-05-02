@@ -4,13 +4,17 @@ import java.time.LocalDateTime;
 
 import com.alasdeplata.enums.FlightStatus;
 
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public record FlightRequest(
-        String flightNumber,
-        Long originId,
-        Long destinationId,
-        LocalDateTime departureTime,
-        LocalDateTime arrivalTime,
-        Long airlineId,
-        FlightStatus status) {
+                @NotBlank String flightNumber,
+                @NotNull Long originId,
+                @NotNull Long destinationId,
+                @NotNull @Future LocalDateTime departureTime,
+                @NotNull @Future LocalDateTime arrivalTime,
+                @NotNull Long airlineId,
+                @NotNull FlightStatus status) {
 
 }

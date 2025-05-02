@@ -2,11 +2,13 @@ package com.alasdeplata.dto.passenger;
 
 import java.time.LocalDate;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public record PassengerRequest(
-        Long userId,
-        String passportNumber,
-        String nationality,
-        LocalDate birthDate
-) {
+                @NotNull Long userId,
+                @NotBlank String passportNumber,
+                @NotBlank String nationality,
+                @NotNull LocalDate birthDate) {
 
 }

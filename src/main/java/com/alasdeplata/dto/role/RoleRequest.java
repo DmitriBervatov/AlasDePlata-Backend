@@ -4,8 +4,11 @@ import java.util.Set;
 
 import com.alasdeplata.enums.RoleEnum;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
 public record RoleRequest(
-        RoleEnum roleEnum,
-        Set<Long> permissionIds) {
+                @NotNull RoleEnum roleEnum,
+                @NotNull @NotEmpty Set<Long> permissionIds) {
 
 }

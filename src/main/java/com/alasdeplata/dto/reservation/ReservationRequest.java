@@ -4,10 +4,12 @@ import java.time.LocalDateTime;
 
 import com.alasdeplata.enums.ReservationStatus;
 
+import jakarta.validation.constraints.NotNull;
+
 public record ReservationRequest(
-        Long userId,
-        Long flightId,
-        LocalDateTime reservationDate,
-        ReservationStatus status) {
+                @NotNull Long userId,
+                @NotNull Long flightId,
+                @NotNull LocalDateTime reservationDate,
+                @NotNull ReservationStatus status) {
 
 }

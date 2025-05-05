@@ -55,6 +55,15 @@ public class UserEntity implements UserDetails {
     @Column(name = "phone")
     private String phone;
 
+    @Column(name = "terms_accepted")
+    private Boolean termsAccepted;
+
+    @Column(name = "newsletter_subscribed")
+    private Boolean newsletterSubscribed;
+
+    @Column(name = "terms_accepted_at")
+    private LocalDateTime termsAcceptedAt;
+
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
@@ -106,6 +115,9 @@ public class UserEntity implements UserDetails {
     public void prePersist() {
         if (createdAt == null) {
             createdAt = LocalDateTime.now();
+        }
+        if (termsAccepted && termsAcceptedAt == null) {
+            termsAcceptedAt = LocalDateTime.now();
         }
     }
 }

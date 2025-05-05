@@ -1,7 +1,10 @@
 package com.alasdeplata.dto.auth;
 
+import java.time.LocalDateTime;
+
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record AuthCreateUserRequest(
         @NotBlank String username,
@@ -9,6 +12,8 @@ public record AuthCreateUserRequest(
         @NotBlank String firstName,
         @NotBlank String lastName,
         @NotBlank String email,
+        @NotNull Boolean termsAccepted,
+        Boolean newsletterSubscribed,
         @Valid AuthCreateRoleRequest roleRequest) {
 
 }

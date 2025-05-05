@@ -54,18 +54,19 @@ public class SecurityConfig {
 
                     http.requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/api/v1/destinations/**").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/api/v1/flights/**").permitAll();
 
                     http.requestMatchers(HttpMethod.GET, "/api/v1/permissions/**").hasRole("ADMIN");
                     http.requestMatchers(HttpMethod.POST, "/api/v1/permissions/**").hasRole("ADMIN");
                     http.requestMatchers(HttpMethod.PUT, "/api/v1/permissions/**").hasRole("ADMIN");
                     http.requestMatchers(HttpMethod.DELETE, "/api/v1/permissions/**").hasRole("ADMIN");
 
-                    http.requestMatchers(HttpMethod.GET, "/api/v1/users/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.GET, "/api/v1/users/**").hasAnyRole("ADMIN", "USER");
                     http.requestMatchers(HttpMethod.POST, "/api/v1/users/**").hasRole("ADMIN");
                     http.requestMatchers(HttpMethod.PUT, "/api/v1/users/**").hasRole("ADMIN");
                     http.requestMatchers(HttpMethod.DELETE, "/api/v1/users/**").hasRole("ADMIN");
 
-                    http.requestMatchers(HttpMethod.GET, "/api/v1/flights/**").hasRole("ADMIN");
+                    
                     http.requestMatchers(HttpMethod.POST, "/api/v1/flights/**").hasRole("ADMIN");
                     http.requestMatchers(HttpMethod.PUT, "/api/v1/flights/**").hasRole("ADMIN");
                     http.requestMatchers(HttpMethod.DELETE, "/api/v1/flights/**").hasRole("ADMIN");

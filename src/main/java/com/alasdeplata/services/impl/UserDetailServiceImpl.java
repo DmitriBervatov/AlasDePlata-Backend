@@ -93,7 +93,9 @@ public class UserDetailServiceImpl implements UserDetailsService {
                 String username = authCreateUserRequest.username();
                 String email = authCreateUserRequest.email();
                 String password = authCreateUserRequest.password();
-                List<String> roleRequest = authCreateUserRequest.roleRequest().roleListName();
+
+                // List<String> roleRequest =
+                // authCreateUserRequest.roleRequest().roleListName();
 
                 if (userRepository.findUserPrincipalByUsername(username).isPresent())
                         throw new IllegalArgumentException("El nombre de usuario ya existe.");
@@ -101,7 +103,11 @@ public class UserDetailServiceImpl implements UserDetailsService {
                 if (userRepository.findByEmail(email).isPresent())
                         throw new IllegalArgumentException("El correo electrónico ya está en uso.");
 
-                Set<Role> roleEntitiesSet = roleRepository.findRoleEntitiesByRoleEnumIn(roleRequest).stream()
+                // Set<Role> roleEntitiesSet =
+                // roleRepository.findRoleEntitiesByRoleEnumIn(roleRequest).stream()
+                // .collect(Collectors.toSet());
+
+                Set<Role> roleEntitiesSet = roleRepository.findRoleEntitiesByRoleEnumIn(List.of("USER")).stream()
                                 .collect(Collectors.toSet());
 
                 if (roleEntitiesSet.isEmpty()) {
@@ -114,6 +120,10 @@ public class UserDetailServiceImpl implements UserDetailsService {
                                 .firstName(authCreateUserRequest.firstName())
                                 .lastName(authCreateUserRequest.lastName())
                                 .email(authCreateUserRequest.email())
+                                .termsAccepted(authCreateUserRequest.termsAccepted())
+                                .newsletterSubscribed(authCreateUserRequest.newsletterSubscribed() != null
+                                                ? authCreateUserRequest.newsletterSubscribed()
+                                                : false)
                                 .roles(roleEntitiesSet)
                                 .isEnabled(true)
                                 .accountNoLocked(true)

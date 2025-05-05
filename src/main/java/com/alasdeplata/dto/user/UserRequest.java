@@ -13,6 +13,8 @@ public record UserRequest(
                 @Email @NotBlank String email,
                 @NotBlank String username,
                 @NotBlank @Size(min = 5) String password,
+                @NotNull Boolean termsAccepted,
+                Boolean newsletterSubscribed,
                 String phone,
                 @NotNull Set<Long> roleIds) {
 

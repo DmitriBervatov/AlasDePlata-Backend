@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.alasdeplata.dto.airline.AirlineRequest;
 import com.alasdeplata.dto.airline.AirlineResponse;
+import com.alasdeplata.dto.airline.AirlineUpdateRequest;
 
 public interface AirlineService {
 
@@ -13,7 +14,7 @@ public interface AirlineService {
 
     AirlineResponse createAirline(AirlineRequest airlineRequest);
 
-    AirlineResponse updateAirline(Long id, AirlineRequest airlineRequest);
+    AirlineResponse updateAirline(Long id, AirlineUpdateRequest airlineRequest);
 
     void deleteAirline(Long id);
 }

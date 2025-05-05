@@ -1,9 +1,9 @@
 package com.alasdeplata.mapper;
 
-import org.mapstruct.Mapper;
+import com.alasdeplata.dto.airline.AirlineUpdateRequest;
+import org.mapstruct.*;
 import com.alasdeplata.dto.airline.AirlineRequest;
 import com.alasdeplata.dto.airline.AirlineResponse;
-import com.alasdeplata.dto.airline.AirlineUpdateRequest;
 import com.alasdeplata.models.Airline;
 
 @Mapper(componentModel = "spring")

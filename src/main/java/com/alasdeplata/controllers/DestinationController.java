@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alasdeplata.dto.destination.DestinationRequest;
 import com.alasdeplata.dto.destination.DestinationResponse;
 import com.alasdeplata.dto.destination.DestinationUpdateRequest;
+import com.alasdeplata.enums.Continent;
 import com.alasdeplata.services.DestinationService;
 
 import jakarta.validation.Valid;
@@ -31,11 +33,22 @@ public class DestinationController {
     private final DestinationService destinationService;
 
     @GetMapping
-    public ResponseEntity<List<DestinationResponse>> getAll() {
+    public ResponseEntity<List<DestinationResponse>> getAll(@RequestParam(required = false) List<String> continent) {
         List<DestinationResponse> items = new ArrayList<>();
+        if (continent != null && !continent.isEmpty()) {
 
-        destinationService.getAllDestinations().forEach(items::add);
+            for (String c : continent) {
+                try {
+                    Continent continentEnum = Continent.valueOf(c.trim().toUpperCase());
+                    items.addAll(destinationService.getDestinationByContinent(continentEnum));
+                } catch (IllegalArgumentException e) {
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+            }
 
+        } else {
+            items = destinationService.getAllDestinations();
+        }
         if (items.isEmpty())
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 

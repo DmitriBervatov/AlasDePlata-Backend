@@ -1,7 +1,11 @@
 package com.alasdeplata.models;
 
+import com.alasdeplata.enums.Continent;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,6 +30,10 @@ public class Destination {
 
     private String city;
     private String country;
+    private String imageUrl;
+
+    @Enumerated(EnumType.STRING)
+    private Continent continent;
 
     @Column(name = "airport_code", unique = true)
     private String airportCode;

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.alasdeplata.dto.destination.DestinationRequest;
 import com.alasdeplata.dto.destination.DestinationResponse;
 import com.alasdeplata.dto.destination.DestinationUpdateRequest;
+import com.alasdeplata.enums.Continent;
 import com.alasdeplata.mapper.DestinationMapper;
 import com.alasdeplata.models.Destination;
 import com.alasdeplata.repository.DestinationRepository;
@@ -56,6 +57,14 @@ public class DestinationServiceImpl implements DestinationService {
     @Override
     public void deleteDestination(Long id) {
         destinationRepository.deleteById(id);
+    }
+
+    @Override
+    public List<DestinationResponse> getDestinationByContinent(Continent continent) {
+        
+        return destinationRepository.findByContinent(continent).stream()
+                .map(destinationMapper::toResponse)
+                .toList();
     }
 
 }

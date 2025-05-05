@@ -28,13 +28,23 @@ VALUES (1, 'santiago', '$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNf
 INSERT INTO user_roles (user_id, role_id) VALUES (1, 1), (2, 2), (3, 3), (4, 4);
 
 -- Destinations
-INSERT INTO destinations (id, city, country, airport_code) VALUES (1, 'Bogotá', 'Colombia', 'BOG');
-INSERT INTO destinations (id, city, country, airport_code) VALUES (2, 'Medellín', 'Colombia', 'MDE');
-INSERT INTO destinations (id, city, country, airport_code) VALUES (3, 'Cartagena', 'Colombia', 'CTG');
+INSERT INTO destinations (id, city, country, image_url, airport_code, continent) VALUES
+(1, 'Bogotá', 'Colombia', 'https://images.unsplash.com/photo-1506744038136-46273834b3fb', 'BOG', 'SOUTH_AMERICA'),
+(2, 'Medellín', 'Colombia', 'https://images.unsplash.com/photo-1464983953574-0892a716854b', 'MDE', 'SOUTH_AMERICA'),
+(3, 'Cartagena', 'Colombia', 'https://images.unsplash.com/photo-1502086223501-7ea6ecd79368', 'CTG', 'SOUTH_AMERICA'),
+(4, 'Lima', 'Peru', 'https://images.unsplash.com/photo-1509228468518-180dd4864904', 'LIM', 'SOUTH_AMERICA'),
+(5, 'Quito', 'Ecuador', 'https://images.unsplash.com/photo-1464983953574-0892a716854b', 'UIO', 'SOUTH_AMERICA'),
+(6, 'Buenos Aires', 'Argentina', 'https://images.unsplash.com/photo-1519681393784-d120267933ba', 'EZE', 'SOUTH_AMERICA'),
+(7, 'Madrid', 'España', 'https://images.unsplash.com/photo-1464983953574-0892a716854b', 'MAD', 'EUROPE');
 
 -- Airplanes
-INSERT INTO airplanes (id, model, capacity, registration_number) VALUES (1, 'Boeing 737', 180, 'ABC123');
-INSERT INTO airplanes (id, model, capacity, registration_number) VALUES (2, 'Airbus A320', 150, 'XYZ789');
+INSERT INTO airplanes (id, model, capacity, registration_number) VALUES 
+(1, 'Boeing 737', 180, 'ABC123'),
+(2, 'Airbus A320', 150, 'XYZ789'),
+(3, 'Boeing 787', 240, 'DEF456'),
+(4, 'Airbus A330', 260, 'GHI012'),
+(5, 'Boeing 777', 300, 'JKL345'),
+(6, 'Airbus A350', 280, 'MNO678');
 
 -- Flights
 INSERT INTO flights (id, flight_number, origin_id, destination_id, departure_time, arrival_time, airplane_id, status) VALUES
@@ -42,34 +52,65 @@ INSERT INTO flights (id, flight_number, origin_id, destination_id, departure_tim
 (2, 'AV202', 2, 3, '2025-05-03T10:00:00', '2025-05-03T11:30:00', 2, 'PROGRAMMED');
 
 -- Passengers
-INSERT INTO passengers (id, user_id, passport_number, nationality, birth_date) VALUES (1, 1, 'P1234567', 'Colombian', '1990-01-01');
-INSERT INTO passengers (id, user_id, passport_number, nationality, birth_date) VALUES (2, 2, 'P7654321', 'Colombian', '1985-06-15');
+INSERT INTO passengers (id, user_id, passport_number, nationality, birth_date) VALUES 
+(1, 1, 'P1234567', 'Colombian', '1990-01-01'),
+(2, 2, 'P7654321', 'Colombian', '1985-06-15'),
+(3, 3, 'P1111111', 'Colombian', '1992-07-21'),
+(4, 4, 'P2222222', 'Peruvian', '1995-12-10');
+
+
 
 -- Reservations
-INSERT INTO reservations (id, user_id, flight_id, reservation_date, status) VALUES (1, 1, 1, '2025-05-01T12:00:00', 'CONFIRMED');
-INSERT INTO reservations (id, user_id, flight_id, reservation_date, status) VALUES (2, 2, 2, '2025-05-01T13:00:00', 'CONFIRMED');
+INSERT INTO reservations (id, user_id, flight_id, reservation_date, status) VALUES 
+(1, 1, 1, '2025-05-01T12:00:00', 'CONFIRMED'),
+(2, 2, 2, '2025-05-01T13:00:00', 'CONFIRMED'),
+(3, 3, 1, '2025-05-01T16:00:00', 'CONFIRMED'),
+(4, 4, 2, '2025-05-01T17:00:00', 'CONFIRMED');
+
 
 -- Seats
-INSERT INTO seats (id, flight_id, seat_number, class, is_available) VALUES (1, 1, '12A', 'ECONOMY', true);
-INSERT INTO seats (id, flight_id, seat_number, class, is_available) VALUES (2, 2, '14B', 'ECONOMY', true);
+INSERT INTO seats (id, flight_id, seat_number, class, is_available) VALUES 
+(1, 1, '12A', 'ECONOMY', true),
+(2, 1, '12B', 'ECONOMY', true),
+(3, 1, '12C', 'ECONOMY', true),
+(4, 1, '12D', 'ECONOMY', true),
+(5, 1, '12E', 'ECONOMY', true),
+(6, 1, '12F', 'ECONOMY', true),
+(7, 1, '12G', 'ECONOMY', true),
+(8, 1, '12H', 'ECONOMY', true),
+(9, 2, '14A', 'ECONOMY', true);
+
 
 -- ReservationPassengers
-INSERT INTO reservation_passengers (id, reservation_id, passenger_id, seat_id) VALUES (1, 1, 1, 1);
-INSERT INTO reservation_passengers (id, reservation_id, passenger_id, seat_id) VALUES (2, 2, 2, 2);
+INSERT INTO reservation_passengers (id, reservation_id, passenger_id, seat_id) VALUES 
+(1, 1, 1, 1),
+(2, 1, 2, 2),
+(3, 2, 1, 1),
+(4, 2, 2, 2);
 
 
 
 -- Payments
-INSERT INTO payments (id, reservation_id, amount, payment_date, payment_method) VALUES (1, 1, 350000, '2025-05-01T14:00:00', 'CREDIT_CARD');
-INSERT INTO payments (id, reservation_id, amount, payment_date, payment_method) VALUES (2, 2, 420000, '2025-05-01T15:00:00', 'PAYPAL');
+INSERT INTO payments (id, reservation_id, amount, payment_date, payment_method) VALUES 
+(1, 1, 350, '2025-05-01T14:00:00', 'CREDIT_CARD'),
+(2, 2, 420, '2025-05-01T15:00:00', 'PAYPAL'),
+(3, 3, 370, '2025-05-01T18:00:00', 'CREDIT_CARD'),
+(4, 4, 410, '2025-05-01T19:00:00', 'PAYPAL');
 
 -- Flight Prices
-INSERT INTO flight_prices (id, flight_id, class, price) VALUES (1, 1, 'ECONOMY', 350000);
-INSERT INTO flight_prices (id, flight_id, class, price) VALUES (2, 2, 'ECONOMY', 420000);
+INSERT INTO flight_prices (id, flight_id, class, price) VALUES 
+(1, 1, 'ECONOMY', 350),
+(2, 2, 'ECONOMY', 420),
+(3, 1, 'BUSINESS', 700),
+(4, 2, 'BUSINESS', 800);
+
 
 -- AiInteractions
 INSERT INTO ai_interactions (id, user_id, interaction_type, message, response, created_at) VALUES
-(1, 1, 'INQUIRY', '¿Cuál es mi vuelo?', 'Tu vuelo es AV101', '2025-05-01T16:00:00');
+(1, 1, 'INQUIRY', '¿Cuál es mi vuelo?', 'Tu vuelo es AV101', '2025-05-01T16:00:00'),
+(2, 2, 'CHECK_IN', '¿Puedo hacer check-in?', 'El check-in está disponible 24h antes del vuelo.', '2025-05-01T17:00:00'),
+(3, 3, 'INQUIRY', '¿Hay wifi en el avión?', 'Sí, hay wifi disponible.', '2025-05-01T18:00:00'),
+(4, 4, 'INQUIRY', '¿Puedo llevar equipaje extra?', 'Sí, pero tiene un costo adicional.', '2025-05-01T19:00:00');
 
 -- Ajustar secuencias para evitar conflictos de clave primaria en inserts automáticos
 SELECT setval('permissions_id_seq', (SELECT MAX(id) FROM permissions));

@@ -53,6 +53,7 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
 
                     http.requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/api/v1/destinations/**").permitAll();
 
                     http.requestMatchers(HttpMethod.GET, "/api/v1/permissions/**").hasRole("ADMIN");
                     http.requestMatchers(HttpMethod.POST, "/api/v1/permissions/**").hasRole("ADMIN");
@@ -74,7 +75,6 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.PUT, "/api/v1/flight-prices/**").hasRole("ADMIN");
                     http.requestMatchers(HttpMethod.DELETE, "/api/v1/flight-prices/**").hasRole("ADMIN");
 
-                    http.requestMatchers(HttpMethod.GET, "/api/v1/destinations/**").hasRole("ADMIN");
                     http.requestMatchers(HttpMethod.POST, "/api/v1/destinations/**").hasRole("ADMIN");
                     http.requestMatchers(HttpMethod.PUT, "/api/v1/destinations/**").hasRole("ADMIN");
                     http.requestMatchers(HttpMethod.DELETE, "/api/v1/destinations/**").hasRole("ADMIN");

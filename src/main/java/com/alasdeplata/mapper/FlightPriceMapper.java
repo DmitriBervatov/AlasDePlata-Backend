@@ -2,6 +2,7 @@ package com.alasdeplata.mapper;
 
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
@@ -12,7 +13,7 @@ import com.alasdeplata.models.FlightPrice;
 
 @Mapper(componentModel = "spring")
 public interface FlightPriceMapper {
-
+    @Mapping(target = "flightId", source = "flight.id")
     FlightPriceResponse toResponse(FlightPrice flightPrice);
 
     FlightPrice toEntity(FlightPriceRequest data);

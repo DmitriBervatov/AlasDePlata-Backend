@@ -57,7 +57,7 @@ INSERT INTO airplanes (id, model, capacity, registration_number, airline_id) VAL
 
 -- Flights
 INSERT INTO flights (id, flight_number, origin_id, destination_id, departure_time, arrival_time, airplane_id, status) VALUES
-(1, 'AV101', 1, 2, '2025-05-06T08:00:00', '2025-05-06T09:00:00', 1, 'PROGRAMMED'),
+(1, 'AV101', 1, 2, '2025-05-07T08:00:00', '2025-05-08T09:00:00', 1, 'PROGRAMMED'),
 (2, 'AV202', 2, 3, '2025-05-08T10:00:00', '2025-05-08T11:30:00', 2, 'PROGRAMMED'),
 (3, 'LA303', 3, 4, '2025-05-10T12:00:00', '2025-05-10T14:00:00', 3, 'PROGRAMMED'),
 (4, 'AA404', 4, 1, '2025-05-12T15:00:00', '2025-05-12T17:00:00', 4, 'PROGRAMMED'),

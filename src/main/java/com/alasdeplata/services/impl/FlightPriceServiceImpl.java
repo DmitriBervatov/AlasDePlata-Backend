@@ -10,6 +10,7 @@ import com.alasdeplata.dto.flightprice.FlightPriceUpdateRequest;
 import com.alasdeplata.mapper.FlightPriceMapper;
 import com.alasdeplata.models.FlightPrice;
 import com.alasdeplata.repository.FlightPriceRepository;
+import com.alasdeplata.repository.FlightRepository;
 import com.alasdeplata.services.FlightPriceService;
 
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class FlightPriceServiceImpl implements FlightPriceService {
 
+    private final FlightRepository flightRepository;
     private final FlightPriceRepository flightPriceRepository;
     private final FlightPriceMapper flightPriceMapper;
+
+   
 
     @Override
     public List<FlightPriceResponse> getAllFlightPrices() {
@@ -38,6 +42,10 @@ public class FlightPriceServiceImpl implements FlightPriceService {
     @Override
     public FlightPriceResponse createFlightPrice(FlightPriceRequest flightPriceRequest) {
         FlightPrice flightPrice = flightPriceMapper.toEntity(flightPriceRequest);
+
+        flightPrice.setFlight(flightRepository.findById(flightPriceRequest.flightId())
+                .orElseThrow(() -> new RuntimeException("Flight not found")));
+
         FlightPrice savedFlightPrice = flightPriceRepository.save(flightPrice);
         return flightPriceMapper.toResponse(savedFlightPrice);
     }
@@ -56,6 +64,13 @@ public class FlightPriceServiceImpl implements FlightPriceService {
         FlightPrice flightPrice = flightPriceRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Flight price not found"));
         flightPriceRepository.delete(flightPrice);
+    }
+
+    @Override
+    public List<FlightPriceResponse> getFlightPricesByFlightId(Long flightId) {
+        return flightPriceRepository.findByFlightId(flightId).stream()
+                .map(flightPriceMapper::toResponse)
+                .toList();
     }
 
 }

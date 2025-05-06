@@ -19,10 +19,10 @@ INSERT INTO role_permissions (role_id, permission_id) VALUES (4, 1), (4, 2), (4,
 
 -- USERS
 INSERT INTO users (id, username, password, is_enabled, account_No_Expired, account_No_Locked, credential_No_Expired)
-VALUES (1, 'santiago', '$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6', true, true, true, true),
-       (2, 'daniel', '$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6', true, true, true, true),
-       (3, 'andrea', '$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6', true, true, true, true),
-       (4, 'anyi', '$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6', true, true, true, true);
+VALUES (1, 'santiago', '$2a$10$alDHPqptkxJ2/XffiFPDEOUzl/zR.a0yN2a7jbReHLMecbHGUi5nu', true, true, true, true),
+       (2, 'daniel', '$2a$10$alDHPqptkxJ2/XffiFPDEOUzl/zR.a0yN2a7jbReHLMecbHGUi5nu', true, true, true, true),
+       (3, 'andrea', '$2a$10$alDHPqptkxJ2/XffiFPDEOUzl/zR.a0yN2a7jbReHLMecbHGUi5nu', true, true, true, true),
+       (4, 'anyi', '$2a$10$alDHPqptkxJ2/XffiFPDEOUzl/zR.a0yN2a7jbReHLMecbHGUi5nu', true, true, true, true);
 
 -- USER_ROLES
 INSERT INTO user_roles (user_id, role_id) VALUES (1, 1), (2, 2), (3, 3), (4, 4);
@@ -37,19 +37,34 @@ INSERT INTO destinations (id, city, country, image_url, airport_code, continent)
 (6, 'Buenos Aires', 'Argentina', 'https://images.unsplash.com/photo-1519681393784-d120267933ba', 'EZE', 'SOUTH_AMERICA'),
 (7, 'Madrid', 'España', 'https://images.unsplash.com/photo-1464983953574-0892a716854b', 'MAD', 'EUROPE');
 
+-- Airlines
+INSERT INTO airlines (id, name, country) VALUES 
+(1, 'Avianca', 'Colombia'),
+(2, 'LATAM', 'Chile'),
+(3, 'American Airlines', 'USA'),
+(4, 'Air France', 'France');
+
+
 -- Airplanes
-INSERT INTO airplanes (id, model, capacity, registration_number) VALUES 
-(1, 'Boeing 737', 180, 'ABC123'),
-(2, 'Airbus A320', 150, 'XYZ789'),
-(3, 'Boeing 787', 240, 'DEF456'),
-(4, 'Airbus A330', 260, 'GHI012'),
-(5, 'Boeing 777', 300, 'JKL345'),
-(6, 'Airbus A350', 280, 'MNO678');
+INSERT INTO airplanes (id, model, capacity, registration_number, airline_id) VALUES 
+(1, 'Boeing 737', 180, 'ABC123', 1),
+(2, 'Airbus A320', 150, 'XYZ789', 2),
+(3, 'Boeing 787', 240, 'DEF456', 2),
+(4, 'Airbus A330', 260, 'GHI012', 3),
+(5, 'Boeing 777', 300, 'JKL345', 4),
+(6, 'Airbus A350', 280, 'MNO678', 1);
+
 
 -- Flights
 INSERT INTO flights (id, flight_number, origin_id, destination_id, departure_time, arrival_time, airplane_id, status) VALUES
-(1, 'AV101', 1, 2, '2025-05-02T08:00:00', '2025-05-02T09:00:00', 1, 'PROGRAMMED'),
-(2, 'AV202', 2, 3, '2025-05-03T10:00:00', '2025-05-03T11:30:00', 2, 'PROGRAMMED');
+(1, 'AV101', 1, 2, '2025-05-06T08:00:00', '2025-05-06T09:00:00', 1, 'PROGRAMMED'),
+(2, 'AV202', 2, 3, '2025-05-08T10:00:00', '2025-05-08T11:30:00', 2, 'PROGRAMMED'),
+(3, 'LA303', 3, 4, '2025-05-10T12:00:00', '2025-05-10T14:00:00', 3, 'PROGRAMMED'),
+(4, 'AA404', 4, 1, '2025-05-12T15:00:00', '2025-05-12T17:00:00', 4, 'PROGRAMMED'),
+(5, 'AF505', 1, 5, '2025-05-15T09:30:00', '2025-05-15T13:00:00', 5, 'PROGRAMMED'),
+(6, 'LA606', 2, 6, '2025-05-18T14:00:00', '2025-05-18T18:00:00', 6, 'PROGRAMMED'),
+(7, 'AV707', 3, 7, '2025-05-21T07:00:00', '2025-05-21T15:00:00', 1, 'PROGRAMMED'),
+(8, 'AA808', 4, 2, '2025-05-25T16:00:00', '2025-05-25T18:30:00', 2, 'PROGRAMMED');
 
 -- Passengers
 INSERT INTO passengers (id, user_id, passport_number, nationality, birth_date) VALUES 
@@ -102,7 +117,35 @@ INSERT INTO flight_prices (id, flight_id, class, price) VALUES
 (1, 1, 'ECONOMY', 350),
 (2, 2, 'ECONOMY', 420),
 (3, 1, 'BUSINESS', 700),
-(4, 2, 'BUSINESS', 800);
+(4, 2, 'BUSINESS', 800),
+(5, 1, 'FIRST_CLASS', 1200),
+(6, 2, 'FIRST_CLASS', 1500);
+
+-- Benefits
+INSERT INTO benefits (id, code, name, description) VALUES
+(1, 'EQUIPAJE_MANO', 'Equipaje de mano', 'Hasta 10kg, 1 pieza'),
+(2, 'EQUIPAJE_BODEGA', 'Equipaje en bodega', 'Hasta 23kg, 1 pieza'),
+(3, 'ASIENTO_PREFERENTE', 'Asiento preferente', 'Selección de asiento preferente'),
+(4, 'WIFI', 'WiFi a bordo', 'Acceso a internet durante el vuelo');
+
+-- Flight Price Benefits
+INSERT INTO flight_price_benefits (id, flight_price_id, benefit_id, value, extra_info) VALUES
+(1, 1, 1, 'Incluido', null),
+(2, 1, 2, 'No incluido', null),
+(3, 1, 3, 'No incluido', null),
+(4, 1, 4, 'No incluido', null),
+(5, 3, 1, 'Incluido', null),
+(6, 3, 2, 'Incluido', null),
+(7, 3, 3, 'Incluido', null),
+(8, 3, 4, 'Incluido', null),
+(9, 2, 1, 'Incluido', null),
+(10, 2, 2, 'No incluido', null),
+(11, 2, 3, 'No incluido', null),
+(12, 2, 4, 'No incluido', null),
+(13, 4, 1, 'Incluido', null),
+(14, 4, 2, 'Incluido', null),
+(15, 4, 3, 'Incluido', null),
+(16, 4, 4, 'Incluido', null);
 
 
 -- AiInteractions
@@ -126,3 +169,7 @@ SELECT setval('reservation_passengers_id_seq', (SELECT MAX(id) FROM reservation_
 SELECT setval('payments_id_seq', (SELECT MAX(id) FROM payments));
 SELECT setval('flight_prices_id_seq', (SELECT MAX(id) FROM flight_prices));
 SELECT setval('ai_interactions_id_seq', (SELECT MAX(id) FROM ai_interactions));
+-- ...existing code...
+SELECT setval('benefits_id_seq', (SELECT MAX(id) FROM benefits));
+SELECT setval('flight_price_benefits_id_seq', (SELECT MAX(id) FROM flight_price_benefits));
+-- ...existing code...

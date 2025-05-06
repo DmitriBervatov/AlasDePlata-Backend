@@ -11,9 +11,11 @@ import com.alasdeplata.dto.flightprice.FlightPriceResponse;
 import com.alasdeplata.dto.flightprice.FlightPriceUpdateRequest;
 import com.alasdeplata.models.FlightPrice;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { FlightPriceBenefitMapper.class})
 public interface FlightPriceMapper {
     @Mapping(target = "flightId", source = "flight.id")
+    @Mapping(target = "flightClassName", expression = "java(flightPrice.getFlightClass().getDisplayName())")
+    @Mapping(target = "benefits", source = "benefits")
     FlightPriceResponse toResponse(FlightPrice flightPrice);
 
     FlightPrice toEntity(FlightPriceRequest data);

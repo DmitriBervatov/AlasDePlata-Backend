@@ -12,12 +12,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alasdeplata.dto.flight.FlightDetailsResponse;
 import com.alasdeplata.dto.flight.FlightRequest;
 import com.alasdeplata.dto.flight.FlightResponse;
 import com.alasdeplata.dto.flight.FlightUpdateRequest;
 import com.alasdeplata.services.FlightService;
+import com.alasdeplata.enums.FlightClass;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +35,25 @@ public class FlightController {
     @GetMapping
     public ResponseEntity<List<FlightResponse>> getAll() {
         return new ResponseEntity<>(flightService.getAllFlights(), HttpStatus.OK);
+    }
+
+    @GetMapping("/details")
+    public ResponseEntity<List<FlightDetailsResponse>> getAllDetails() {
+        return ResponseEntity.ok(flightService.getAllFlightDetails());
+    }
+
+    @GetMapping("/details/search")
+    public ResponseEntity<List<FlightDetailsResponse>> searchFlightDetails(
+            @RequestParam String origin,
+            @RequestParam String destination,
+            @RequestParam String departureDate,
+            @RequestParam String travelClass) {
+        return ResponseEntity.ok(flightService.searchFlightDetails(origin, destination, departureDate, travelClass));
+    }
+
+    @GetMapping("/classes")    
+    public ResponseEntity<FlightClass[]> getFlightClasses() {
+        return ResponseEntity.ok(FlightClass.values());
     }
 
     @GetMapping("{id}")

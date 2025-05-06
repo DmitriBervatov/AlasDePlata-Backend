@@ -1,14 +1,24 @@
 package com.alasdeplata.controllers;
 
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.alasdeplata.dto.airline.AirlineRequest;
 import com.alasdeplata.dto.airline.AirlineResponse;
 import com.alasdeplata.dto.airline.AirlineUpdateRequest;
 import com.alasdeplata.services.AirlineService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,7 +43,8 @@ public class AirlineController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AirlineResponse> updateAirline(@PathVariable Long id, @RequestBody AirlineUpdateRequest airlineRequest) {
+    public ResponseEntity<AirlineResponse> updateAirline(@PathVariable Long id,
+            @RequestBody AirlineUpdateRequest airlineRequest) {
         return ResponseEntity.ok(airlineService.updateAirline(id, airlineRequest));
     }
 

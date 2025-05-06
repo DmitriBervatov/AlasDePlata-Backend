@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,12 +19,20 @@ import lombok.Setter;
 @Setter
 @Builder
 @Entity
-@Table(name = "airlines")
-public class Airline {
+@Table(name = "flight_price_benefits")
+public class FlightPriceBenefit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private String country;
+    @ManyToOne
+    @JoinColumn(name = "flight_price_id")
+    private FlightPrice flightPrice;
+
+    @ManyToOne
+    @JoinColumn(name = "benefit_id")
+    private Benefit benefit;
+
+    private String value; // Ej: "Incluido", "No incluido", "Con cargo", "10kg", etc.
+    private String extraInfo; // Opcional: detalles adicionales
 }

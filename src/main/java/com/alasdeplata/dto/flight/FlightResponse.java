@@ -11,7 +11,7 @@ public record FlightResponse(
     Long destinationId,
     LocalDateTime departureTime,
     LocalDateTime arrivalTime,
-    Long airlineId,
+    Long airplaneId,
     FlightStatus status
 ) {
 

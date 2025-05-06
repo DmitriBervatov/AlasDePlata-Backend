@@ -2,7 +2,6 @@ package com.alasdeplata.mapper;
 
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
@@ -15,7 +14,6 @@ import com.alasdeplata.models.Airplane;
 public interface AirplaneMapper {
     AirplaneResponse toResponse(Airplane airplane);
 
-    @Mapping(target = "id", ignore = true)
     Airplane toEntity(AirplaneRequest data);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

@@ -17,12 +17,13 @@ import lombok.Setter;
 @Setter
 @Builder
 @Entity
-@Table(name = "airlines")
-public class Airline {
+@Table(name = "benefits")
+public class Benefit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private String country;
+    private String code; // Ej: "EQUIPAJE_MANO"
+    private String name; // Ej: "Equipaje de mano"
+    private String description; // Ej: "Hasta 10kg, 1 pieza"
 }

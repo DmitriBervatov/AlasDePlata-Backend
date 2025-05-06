@@ -11,7 +11,6 @@ public interface AirlineMapper {
 
     AirlineResponse toResponse(Airline airline);
 
-    @Mapping(target = "id", ignore = true)
     Airline toEntity(AirlineRequest data);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

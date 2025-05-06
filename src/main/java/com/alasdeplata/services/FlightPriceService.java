@@ -17,4 +17,6 @@ public interface FlightPriceService {
     FlightPriceResponse updateFlightPrice(Long id, FlightPriceUpdateRequest flightPriceUpdateRequest);
 
     void deleteFlightPrice(Long id);
+
+    List<FlightPriceResponse> getFlightPricesByFlightId(Long flightId);
 }

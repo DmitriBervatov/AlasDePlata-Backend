@@ -12,6 +12,5 @@ public interface PermissionMapper {
 
     PermissionResponse toResponse(Permission permission);
 
-    @Mapping(target = "id", ignore = true)
     Permission toEntity(PermissionRequest data);
 }

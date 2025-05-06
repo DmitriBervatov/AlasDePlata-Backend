@@ -37,6 +37,11 @@ public class FlightPriceController {
         return ResponseEntity.ok(flightPriceService.getFlightPriceById(id));
     }
 
+    @GetMapping("/flight/{flightId}")
+    public ResponseEntity<List<FlightPriceResponse>> getFlightPricesByFlightId(@PathVariable Long flightId) {
+        return ResponseEntity.ok(flightPriceService.getFlightPricesByFlightId(flightId));
+    }
+
     @PostMapping
     public ResponseEntity<FlightPriceResponse> createFlightPrice(@RequestBody @Valid FlightPriceRequest flightPriceRequest) {
         return ResponseEntity.ok(flightPriceService.createFlightPrice(flightPriceRequest));

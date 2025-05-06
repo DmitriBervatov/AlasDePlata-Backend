@@ -1,9 +1,11 @@
 package com.alasdeplata.models;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import com.alasdeplata.enums.FlightClass;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,6 +39,9 @@ public class FlightPrice {
     @ManyToOne
     @JoinColumn(name = "flight_id")
     private Flight flight;
+
+    @OneToMany(mappedBy = "flightPrice", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FlightPriceBenefit> benefits;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "class")

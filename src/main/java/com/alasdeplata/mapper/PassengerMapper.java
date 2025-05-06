@@ -16,7 +16,6 @@ public interface PassengerMapper {
     @Mapping(target = "userId", source = "user.id")
     PassengerResponse toResponse(Passenger passenger);
 
-    @Mapping(target = "id", ignore = true)
     Passenger toEntity(PassengerRequest data);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

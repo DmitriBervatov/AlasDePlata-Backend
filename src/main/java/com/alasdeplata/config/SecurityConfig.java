@@ -58,6 +58,10 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.GET, "/api/v1/airlines/**").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/api/v1/airplanes/**").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/api/v1/flight-prices/**").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/api/v1/seats/**").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/api/v1/additional-services/**").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/api/v1/reservation-additional-services/**").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/api/v1/flight-additional-services/**").permitAll();
 
 
                     http.requestMatchers(HttpMethod.GET, "/api/v1/permissions/**").hasRole("ADMIN");
@@ -96,7 +100,6 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.PUT, "/api/v1/payments/**").hasRole("ADMIN");
                     http.requestMatchers(HttpMethod.DELETE, "/api/v1/payments/**").hasRole("ADMIN");
 
-                    http.requestMatchers(HttpMethod.GET, "/api/v1/seats/**").hasRole("ADMIN");
                     http.requestMatchers(HttpMethod.POST, "/api/v1/seats/**").hasRole("ADMIN");
                     http.requestMatchers(HttpMethod.PUT, "/api/v1/seats/**").hasRole("ADMIN");
                     http.requestMatchers(HttpMethod.DELETE, "/api/v1/seats/**").hasRole("ADMIN");
@@ -114,11 +117,6 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.POST, "/api/v1/airplanes/**").hasRole("ADMIN");
                     http.requestMatchers(HttpMethod.PUT, "/api/v1/airplanes/**").hasRole("ADMIN");
                     http.requestMatchers(HttpMethod.DELETE, "/api/v1/airplanes/**").hasRole("ADMIN");
-
-                    http.requestMatchers(HttpMethod.GET, "/api/v1/ai-interactions/**").hasRole("ADMIN");
-                    http.requestMatchers(HttpMethod.POST, "/api/v1/ai-interactions/**").hasRole("ADMIN");
-                    http.requestMatchers(HttpMethod.PUT, "/api/v1/ai-interactions/**").hasRole("ADMIN");
-                    http.requestMatchers(HttpMethod.DELETE, "/api/v1/ai-interactions/**").hasRole("ADMIN");
 
                     // Configurar los endpoints privados
                     // http.requestMatchers(HttpMethod.GET,

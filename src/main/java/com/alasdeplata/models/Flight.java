@@ -1,19 +1,13 @@
 package com.alasdeplata.models;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.alasdeplata.enums.FlightStatus;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -52,6 +46,10 @@ public class Flight {
     @ManyToOne
     @JoinColumn(name = "airplane_id")
     private Airplane airplane;
+
+    @OneToMany(mappedBy = "flight")
+    @JsonIgnore
+    private List<FlightAdditionalService> flightAdditionalServiceList;
 
     @Enumerated(EnumType.STRING)
     private FlightStatus status;

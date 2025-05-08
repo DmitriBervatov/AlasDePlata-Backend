@@ -6,6 +6,7 @@ public record SeatUpdateRequest(
         Long flightId,
         String seatNumber,
         FlightClass flightClass,
-        Boolean isAvailable) {
+        String seatType,
+        String seatStatus) {
 
 }

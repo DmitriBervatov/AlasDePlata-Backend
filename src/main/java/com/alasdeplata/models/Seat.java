@@ -1,6 +1,8 @@
 package com.alasdeplata.models;
 
 import com.alasdeplata.enums.FlightClass;
+import com.alasdeplata.enums.SeatStatus;
+import com.alasdeplata.enums.SeatType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -41,6 +43,12 @@ public class Seat {
     @Column(name = "class")
     private FlightClass flightClass;
 
-    @Column(name = "is_available")
-    private Boolean isAvailable;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "seat_type")
+    private SeatType seatType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "seat_status")
+    private SeatStatus seatStatus;
+
 }

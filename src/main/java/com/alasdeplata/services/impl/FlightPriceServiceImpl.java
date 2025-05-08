@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import com.alasdeplata.dto.flightprice.FlightPriceRequest;
 import com.alasdeplata.dto.flightprice.FlightPriceResponse;
 import com.alasdeplata.dto.flightprice.FlightPriceUpdateRequest;
+import com.alasdeplata.dto.flightpricebenefits.FlightPriceBenefitResponse;
+import com.alasdeplata.enums.FlightClass;
+import com.alasdeplata.mapper.FlightPriceBenefitMapper;
 import com.alasdeplata.mapper.FlightPriceMapper;
 import com.alasdeplata.models.FlightPrice;
 import com.alasdeplata.repository.FlightPriceRepository;
@@ -22,8 +25,7 @@ public class FlightPriceServiceImpl implements FlightPriceService {
     private final FlightRepository flightRepository;
     private final FlightPriceRepository flightPriceRepository;
     private final FlightPriceMapper flightPriceMapper;
-
-   
+    private final FlightPriceBenefitMapper flightPriceBenefitMapper;
 
     @Override
     public List<FlightPriceResponse> getAllFlightPrices() {
@@ -72,5 +74,17 @@ public class FlightPriceServiceImpl implements FlightPriceService {
                 .map(flightPriceMapper::toResponse)
                 .toList();
     }
+
+    @Override
+    public List<FlightPriceBenefitResponse> getBenefitsByFlightAndClass(Long flightId, FlightClass flightClass) {
+        return flightPriceRepository.findByFlightIdAndFlightClass(flightId, flightClass)
+            .map(FlightPrice::getBenefits)
+            .orElse(List.of())
+            .stream()
+            .map(flightPriceBenefitMapper::toResponse)
+            .toList();
+    }
+
+   
 
 }

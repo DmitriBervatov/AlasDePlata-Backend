@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.alasdeplata.dto.seat.SeatFilterRequest;
 import com.alasdeplata.dto.seat.SeatRequest;
 import com.alasdeplata.dto.seat.SeatResponse;
 import com.alasdeplata.dto.seat.SeatUpdateRequest;
@@ -62,6 +63,25 @@ public class SeatServiceImpl implements SeatService {
     @Override
     public void deleteSeat(Long id) {
         seatRepository.deleteById(id);
+    }
+
+    @Override
+    public List<SeatResponse> getSeatsByFlightId(Long flightId) {
+        return seatRepository.findByFlightId(flightId).stream()
+                .map(seatMapper::toResponse)
+                .toList();
+    }
+
+    @Override
+    public List<SeatResponse> getSeatsByFilter(SeatFilterRequest filter) {
+        return seatRepository.findAll().stream()
+                .filter(seat -> filter.getFlightId() == null || seat.getFlight().getId().equals(filter.getFlightId()))
+                .filter(seat -> filter.getSeatStatus() == null
+                        || seat.getSeatStatus().name().equalsIgnoreCase(filter.getSeatStatus()))
+                .filter(seat -> filter.getSeatType() == null
+                        || seat.getSeatType().name().equalsIgnoreCase(filter.getSeatType()))
+                .map(seatMapper::toResponse)
+                .toList();
     }
 
 }

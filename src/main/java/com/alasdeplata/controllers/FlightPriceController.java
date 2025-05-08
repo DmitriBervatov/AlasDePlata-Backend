@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alasdeplata.dto.flightprice.FlightPriceRequest;
 import com.alasdeplata.dto.flightprice.FlightPriceResponse;
 import com.alasdeplata.dto.flightprice.FlightPriceUpdateRequest;
+import com.alasdeplata.dto.flightpricebenefits.FlightPriceBenefitResponse;
+import com.alasdeplata.enums.FlightClass;
 import com.alasdeplata.services.FlightPriceService;
 
 import jakarta.validation.Valid;
@@ -32,8 +35,17 @@ public class FlightPriceController {
         return ResponseEntity.ok(flightPriceService.getAllFlightPrices());
     }
 
+    @GetMapping("/flight/{flightId}/benefits")
+    public ResponseEntity<List<FlightPriceBenefitResponse>> getBenefitsByFlightAndClass(
+            @PathVariable Long flightId,
+            @RequestParam FlightClass flightClass) {
+        List<FlightPriceBenefitResponse> benefits = flightPriceService.getBenefitsByFlightAndClass(flightId,
+                flightClass);
+        return ResponseEntity.ok(benefits);
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<FlightPriceResponse> getFlightPriceById(@PathVariable Long id) {
+    public ResponseEntity<FlightPriceResponse> getFlightPriceById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(flightPriceService.getFlightPriceById(id));
     }
 
@@ -43,7 +55,8 @@ public class FlightPriceController {
     }
 
     @PostMapping
-    public ResponseEntity<FlightPriceResponse> createFlightPrice(@RequestBody @Valid FlightPriceRequest flightPriceRequest) {
+    public ResponseEntity<FlightPriceResponse> createFlightPrice(
+            @RequestBody @Valid FlightPriceRequest flightPriceRequest) {
         return ResponseEntity.ok(flightPriceService.createFlightPrice(flightPriceRequest));
     }
 

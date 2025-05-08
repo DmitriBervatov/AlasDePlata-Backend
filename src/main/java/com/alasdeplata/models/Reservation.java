@@ -1,19 +1,11 @@
 package com.alasdeplata.models;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.alasdeplata.enums.ReservationStatus;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -45,4 +37,7 @@ public class Reservation {
 
     @Enumerated(EnumType.STRING)
     private ReservationStatus status;
+
+    @OneToMany(mappedBy = "reservation")
+    private List<ReservationAdditionalService> additionalServices;
 }

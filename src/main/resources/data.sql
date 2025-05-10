@@ -57,8 +57,8 @@ INSERT INTO airplanes (id, model, capacity, registration_number, airline_id) VAL
 
 -- Flights
 INSERT INTO flights (id, flight_number, origin_id, destination_id, departure_time, arrival_time, airplane_id, status) VALUES
-(1, 'AV101', 1, 2, '2025-05-10T08:00:00', '2025-05-10T10:00:00', 1, 'PROGRAMMED'),
-(2, 'AV202', 2, 3, '2025-05-10T12:00:00', '2025-05-10T14:30:00', 2, 'PROGRAMMED'),
+(1, 'AV101', 1, 2, '2025-05-11T08:00:00', '2025-05-25T10:00:00', 1, 'PROGRAMMED'),
+(2, 'AV202', 2, 3, '2025-05-11T12:00:00', '2025-05-25T14:30:00', 2, 'PROGRAMMED'),
 (3, 'LA303', 3, 4, '2025-05-11T09:00:00', '2025-05-11T11:00:00', 3, 'PROGRAMMED'),
 (4, 'AA404', 4, 1, '2025-05-12T15:00:00', '2025-05-12T17:00:00', 4, 'PROGRAMMED'),
 (5, 'AF505', 1, 5, '2025-05-13T09:30:00', '2025-05-13T12:00:00', 5, 'PROGRAMMED'),
@@ -142,11 +142,11 @@ INSERT INTO flight_prices (id, flight_id, class, price) VALUES
 (118, 40, 'ECONOMY', 740.00), (119, 40, 'BUSINESS', 1090.00), (120, 40, 'FIRST_CLASS', 1590.00);
 
 -- Passengers
-INSERT INTO passengers (id, user_id, passport_number, nationality, birth_date) VALUES 
-(1, 1, 'P1234567', 'Colombian', '1990-01-01'),
-(2, 2, 'P7654321', 'Colombian', '1985-06-15'),
-(3, 3, 'P1111111', 'Colombian', '1992-07-21'),
-(4, 4, 'P2222222', 'Peruvian', '1995-12-10');
+INSERT INTO passengers (
+    id, user_id, first_name, last_name, gender, document_type, document_number, document_expiration, email, phone, nationality, birth_date
+) VALUES
+(1, 1, 'Juan', 'Pérez', 'MALE', 'DNI', '12345678', '2030-06-15', 'juan.perez@email.com', '3001234567', 'Colombian', '1990-01-01'),
+(2, 2, 'Ana', 'García', 'FEMALE', 'PASAPORTE', 'P9876543', '2028-12-20', 'ana.garcia@email.com', '3009876543', 'Peruvian', '1985-05-12');
 
 
 

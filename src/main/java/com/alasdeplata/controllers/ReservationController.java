@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alasdeplata.dto.checkout.ReservationCheckoutRequest;
 import com.alasdeplata.dto.reservation.ReservationRequest;
 import com.alasdeplata.dto.reservation.ReservationResponse;
 import com.alasdeplata.services.ReservationService;
@@ -54,6 +55,12 @@ public class ReservationController {
     public ResponseEntity<ReservationResponse> create(@Valid @RequestBody ReservationRequest reservation) {
         ReservationResponse savedItem = reservationService.createReservation(reservation);
         return new ResponseEntity<>(savedItem, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/checkout")
+    public ResponseEntity<ReservationResponse> checkout(@RequestBody ReservationCheckoutRequest request) {
+        ReservationResponse response = reservationService.processCheckout(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("{id}")

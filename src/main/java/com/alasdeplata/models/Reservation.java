@@ -40,4 +40,9 @@ public class Reservation {
 
     @OneToMany(mappedBy = "reservation")
     private List<ReservationAdditionalService> additionalServices;
+
+    @PrePersist
+    public void prePersist() {
+        this.reservationDate = LocalDateTime.now();
+    }
 }

@@ -30,7 +30,7 @@ public class PassengerServiceImpl implements PassengerService {
         return passengerRepository.findAll()
                 .stream()
                 .map(passengerMapper::toResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

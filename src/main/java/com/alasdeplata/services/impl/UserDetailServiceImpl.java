@@ -40,7 +40,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
         @Override
         public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                UserEntity user = userRepository.findUserPrincipalByUsername(username)
+                UserEntity user = userRepository.findUserEntityByUsername(username)
                                 .orElseThrow(() -> new UsernameNotFoundException(
                                                 "El usuario " + username + " no existe."));
 
@@ -97,7 +97,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
                 // List<String> roleRequest =
                 // authCreateUserRequest.roleRequest().roleListName();
 
-                if (userRepository.findUserPrincipalByUsername(username).isPresent())
+                if (userRepository.findUserEntityByUsername(username).isPresent())
                         throw new IllegalArgumentException("El nombre de usuario ya existe.");
 
                 if (userRepository.findByEmail(email).isPresent())

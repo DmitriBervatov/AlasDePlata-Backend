@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import com.alasdeplata.enums.PaymentMethod;
+import com.alasdeplata.enums.PaymentStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -45,4 +46,17 @@ public class Payment {
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_method")
     private PaymentMethod paymentMethod;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private PaymentStatus status;
+
+    @Column(name = "transaction_id")
+    private String transactionId;
+
+    @Column(name = "currency")
+    private String currency;
+
+    @Column(name = "description")
+    private String description;
 }

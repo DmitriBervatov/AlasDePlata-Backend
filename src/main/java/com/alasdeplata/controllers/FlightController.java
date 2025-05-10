@@ -7,20 +7,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alasdeplata.dto.flight.FlightDetailsResponse;
 import com.alasdeplata.dto.flight.FlightRequest;
+import com.alasdeplata.dto.flight.FlightRequestFilter;
 import com.alasdeplata.dto.flight.FlightResponse;
 import com.alasdeplata.dto.flight.FlightUpdateRequest;
-import com.alasdeplata.services.FlightService;
 import com.alasdeplata.enums.FlightClass;
+import com.alasdeplata.services.FlightService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -44,14 +45,11 @@ public class FlightController {
 
     @GetMapping("/details/search")
     public ResponseEntity<List<FlightDetailsResponse>> searchFlightDetails(
-            @RequestParam String origin,
-            @RequestParam String destination,
-            @RequestParam String departureDate,
-            @RequestParam String travelClass) {
-        return ResponseEntity.ok(flightService.searchFlightDetails(origin, destination, departureDate, travelClass));
+            @ModelAttribute FlightRequestFilter flightRequestFilter) {
+        return ResponseEntity.ok(flightService.searchFlightDetails(flightRequestFilter));
     }
 
-    @GetMapping("/classes")    
+    @GetMapping("/classes")
     public ResponseEntity<FlightClass[]> getFlightClasses() {
         return ResponseEntity.ok(FlightClass.values());
     }

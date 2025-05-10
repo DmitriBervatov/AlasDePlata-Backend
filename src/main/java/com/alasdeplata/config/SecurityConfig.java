@@ -62,6 +62,7 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.GET, "/api/v1/additional-services/**").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/api/v1/reservation-additional-services/**").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/api/v1/flight-additional-services/**").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/api/v1/payments/**").authenticated();
 
 
                     http.requestMatchers(HttpMethod.GET, "/api/v1/permissions/**").hasRole("ADMIN");
@@ -95,7 +96,7 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.PUT, "/api/v1/passengers/**").hasRole("ADMIN");
                     http.requestMatchers(HttpMethod.DELETE, "/api/v1/passengers/**").hasRole("ADMIN");
 
-                    http.requestMatchers(HttpMethod.GET, "/api/v1/payments/**").hasRole("ADMIN");
+
                     http.requestMatchers(HttpMethod.POST, "/api/v1/payments/**").hasRole("ADMIN");
                     http.requestMatchers(HttpMethod.PUT, "/api/v1/payments/**").hasRole("ADMIN");
                     http.requestMatchers(HttpMethod.DELETE, "/api/v1/payments/**").hasRole("ADMIN");

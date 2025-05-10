@@ -9,7 +9,7 @@ import com.alasdeplata.models.UserEntity;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
-    Optional<UserEntity> findUserPrincipalByUsername(String username);
+    Optional<UserEntity> findUserEntityByUsername(String username);
 
     Optional<UserEntity> findByEmail(String email);
 }

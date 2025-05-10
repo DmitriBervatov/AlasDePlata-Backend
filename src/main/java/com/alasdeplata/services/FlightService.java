@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.alasdeplata.dto.flight.FlightDetailsResponse;
 import com.alasdeplata.dto.flight.FlightRequest;
+import com.alasdeplata.dto.flight.FlightRequestFilter;
 import com.alasdeplata.dto.flight.FlightResponse;
 import com.alasdeplata.dto.flight.FlightUpdateRequest;
 
@@ -21,7 +22,7 @@ public interface FlightService {
 
     void deleteFlight(Long id);
 
-    List<FlightDetailsResponse> searchFlightDetails(String origin, String destination, String departureDate, String travelClass);
+    List<FlightDetailsResponse> searchFlightDetails(FlightRequestFilter flightRequestFilter);
 
 
 }

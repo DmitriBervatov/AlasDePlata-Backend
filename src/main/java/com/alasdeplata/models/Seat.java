@@ -1,5 +1,7 @@
 package com.alasdeplata.models;
 
+import java.math.BigDecimal;
+
 import com.alasdeplata.enums.FlightClass;
 import com.alasdeplata.enums.SeatStatus;
 import com.alasdeplata.enums.SeatType;

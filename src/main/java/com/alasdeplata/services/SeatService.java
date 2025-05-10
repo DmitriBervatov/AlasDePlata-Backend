@@ -1,5 +1,6 @@
 package com.alasdeplata.services;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +17,8 @@ public interface SeatService {
     Optional<SeatResponse> getSeatById(Long id);
 
     List<SeatResponse> getSeatsByFlightId(Long flightId);
+
+    BigDecimal getSeatExtraById(Long seatId);
 
     SeatResponse createSeat(SeatRequest item);
 

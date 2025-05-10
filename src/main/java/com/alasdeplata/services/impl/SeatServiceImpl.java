@@ -1,5 +1,6 @@
 package com.alasdeplata.services.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,8 +12,11 @@ import com.alasdeplata.dto.seat.SeatResponse;
 import com.alasdeplata.dto.seat.SeatUpdateRequest;
 import com.alasdeplata.mapper.SeatMapper;
 import com.alasdeplata.models.Seat;
+import com.alasdeplata.models.SeatTypeExtraPrice;
+import com.alasdeplata.repository.FlightPriceRepository;
 import com.alasdeplata.repository.FlightRepository;
 import com.alasdeplata.repository.SeatRepository;
+import com.alasdeplata.repository.SeatTypeExtraPriceRepository;
 import com.alasdeplata.services.SeatService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,6 +27,8 @@ public class SeatServiceImpl implements SeatService {
 
     private final SeatRepository seatRepository;
     private final SeatMapper seatMapper;
+    private final SeatTypeExtraPriceRepository seatTypeExtraPriceRepository;
+    private final FlightPriceRepository flightPriceRepository;
     private final FlightRepository flightRepository;
 
     @Override
@@ -80,8 +86,30 @@ public class SeatServiceImpl implements SeatService {
                         || seat.getSeatStatus().name().equalsIgnoreCase(filter.getSeatStatus()))
                 .filter(seat -> filter.getSeatType() == null
                         || seat.getSeatType().name().equalsIgnoreCase(filter.getSeatType()))
-                .map(seatMapper::toResponse)
+                .map(seat -> {
+                    BigDecimal extraPrice = seatTypeExtraPriceRepository.findBySeatType(seat.getSeatType())
+                            .map(SeatTypeExtraPrice::getExtraPrice)
+                            .orElse(BigDecimal.ZERO);
+
+                    return new SeatResponse(
+                            seat.getId(),
+                            seat.getFlight().getId(),
+                            seat.getSeatNumber(),
+                            seat.getFlightClass(),
+                            seat.getSeatType(),
+                            seat.getSeatStatus(),
+                            extraPrice);
+                })
                 .toList();
+    }
+
+    @Override
+    public BigDecimal getSeatExtraById(Long seatId) {
+        Seat seat = seatRepository.findById(seatId)
+                .orElseThrow(() -> new RuntimeException("Seat not found"));
+        return seatTypeExtraPriceRepository.findBySeatType(seat.getSeatType())
+                .map(SeatTypeExtraPrice::getExtraPrice)
+                .orElse(BigDecimal.ZERO);
     }
 
 }

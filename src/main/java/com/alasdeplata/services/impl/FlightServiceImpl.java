@@ -2,6 +2,7 @@ package com.alasdeplata.services.impl;
 
 import java.math.BigDecimal;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.alasdeplata.dto.flight.FlightDetailsResponse;
 import com.alasdeplata.dto.flight.FlightRequest;
+import com.alasdeplata.dto.flight.FlightRequestFilter;
 import com.alasdeplata.dto.flight.FlightResponse;
 import com.alasdeplata.dto.flight.FlightUpdateRequest;
 import com.alasdeplata.enums.FlightClass;
@@ -21,9 +23,11 @@ import com.alasdeplata.repository.FlightRepository;
 import com.alasdeplata.services.FlightService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class FlightServiceImpl implements FlightService {
 
         private final FlightRepository flightRepository;
@@ -44,37 +48,8 @@ public class FlightServiceImpl implements FlightService {
 
         @Override
         public List<FlightDetailsResponse> getAllFlightDetails() {
-                return flightRepository.findAll().stream()
-                                .map(flight -> {
-                                        FlightDetailsResponse details = flightMapper.toDetailsResponse(flight);
-                                        BigDecimal farePrice = flightPriceRepository
-                                                        .findByFlightIdAndFlightClass(flight.getId(),
-                                                                        FlightClass.ECONOMY)
-                                                        .stream()
-                                                        .map(price -> price.getPrice())
-                                                        .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-                                        Duration duration = Duration.between(flight.getDepartureTime(),
-                                                        flight.getArrivalTime());
-                                        long hours = duration.toHours();
-                                        long minutes = duration.toMinutesPart();
-
-                                        String durationStr = String.format("%dh %02dm", hours, minutes);
-
-                                        return new FlightDetailsResponse(
-                                                        details.id(),
-                                                        details.flightNumber(),
-                                                        details.airline(),
-                                                        details.origin(),
-                                                        details.airportCodeOrigin(),
-                                                        details.destination(),
-                                                        details.airportCodeDestination(),
-                                                        details.departureTime(),
-                                                        details.arrivalTime(),
-                                                        farePrice.doubleValue(),
-                                                        durationStr);
-                                })
-                                .toList();
+                List<Flight> flights = flightRepository.findAll();
+                return mapToFlightDetailsResponse(flights);
         }
 
         @Override
@@ -125,48 +100,69 @@ public class FlightServiceImpl implements FlightService {
         }
 
         @Override
-        public List<FlightDetailsResponse> searchFlightDetails(
-                        String origin,
-                        String destination,
-                        String departureDate,
-                        String travelClass) {
-                FlightClass flightClass = FlightClass.valueOf(travelClass.toUpperCase());
-                return flightRepository.findAll().stream()
-                                .filter(flight -> flight.getOrigin().getCity().equalsIgnoreCase(origin)
-                                                && flight.getDestination().getCity().equalsIgnoreCase(destination)
-                                                && flight.getDepartureTime().toLocalDate()
-                                                                .toString()
-                                                                .equals(departureDate))
-                                .map(flight -> {
-                                        FlightDetailsResponse details = flightMapper.toDetailsResponse(flight);
-                                        BigDecimal farePrice = flightPriceRepository
-                                                        .findByFlightIdAndFlightClass(flight.getId(),
-                                                                        flightClass)
-                                                        .stream()
-                                                        .map(price -> price.getPrice())
-                                                        .reduce(BigDecimal.ZERO, BigDecimal::add);
+        public List<FlightDetailsResponse> searchFlightDetails(FlightRequestFilter flightRequestFilter) {
+                List<Flight> filteredFlights =  flightRepository.findAll().stream()
+                                .filter(flight -> {
+                                        if (flightRequestFilter.getDepartureDate() != null) {
+                                                LocalDateTime filterDateTime = flightRequestFilter.getDepartureDate();
+                                                if (flight.getDepartureTime().isBefore(filterDateTime)) {
+                                                        return false;
+                                                }
+                                        }
 
-                                        Duration duration = Duration.between(flight.getDepartureTime(),
-                                                        flight.getArrivalTime());
-                                        long hours = duration.toHours();
-                                        long minutes = duration.toMinutesPart();
+                                        if (flightRequestFilter.getOrigin() != null &&
+                                                        !flight.getOrigin().getCity()
+                                                                        .equalsIgnoreCase(flightRequestFilter
+                                                                                        .getOrigin())) {
+                                                return false;
+                                        }
 
-                                        String durationStr = String.format("%dh %02dm", hours, minutes);
+                                        if (flightRequestFilter.getDestination() != null &&
+                                                        !flight.getDestination().getCity().equalsIgnoreCase(
+                                                                        flightRequestFilter.getDestination())) {
 
-                                        return new FlightDetailsResponse(
-                                                        details.id(),
-                                                        details.flightNumber(),
-                                                        details.airline(),
-                                                        details.origin(),
-                                                        details.airportCodeOrigin(),
-                                                        details.destination(),
-                                                        details.airportCodeDestination(),
-                                                        details.departureTime(),
-                                                        details.arrivalTime(),
-                                                        farePrice.doubleValue(),
-                                                        durationStr);
+                                                return false;
+                                        }
+
+                                        return true;
                                 })
                                 .toList();
+                                
+                return mapToFlightDetailsResponse(filteredFlights);
+        }
+
+        private List<FlightDetailsResponse> mapToFlightDetailsResponse(List<Flight> flights) {
+                return flights.stream()
+                        .map(flight -> {
+                                FlightDetailsResponse details = flightMapper.toDetailsResponse(flight);
+
+                                BigDecimal farePrice = flightPriceRepository
+                                                .findByFlightIdAndFlightClass(flight.getId(), FlightClass.ECONOMY)
+                                                .stream()
+                                                .map(price -> price.getPrice())
+                                                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+                                Duration duration = Duration.between(flight.getDepartureTime(),
+                                                flight.getArrivalTime());
+                                long hours = duration.toHours();
+                                long minutes = duration.toMinutesPart();
+
+                                String durationStr = String.format("%dh %02dm", hours, minutes);
+
+                                return new FlightDetailsResponse(
+                                        details.id(),
+                                        details.flightNumber(),
+                                        details.airline(),
+                                        details.origin(),
+                                        details.airportCodeOrigin(),
+                                        details.destination(),
+                                        details.airportCodeDestination(),
+                                        details.departureTime(),
+                                        details.arrivalTime(),
+                                        farePrice.doubleValue(),
+                                        durationStr
+                                );
+                        }).toList();
         }
 
 }

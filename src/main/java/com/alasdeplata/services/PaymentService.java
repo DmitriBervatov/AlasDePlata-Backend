@@ -12,6 +12,9 @@ public interface PaymentService {
 
     PaymentResponse getPaymentById(Long id);
 
+    // List<PaymentResponse> getPaymentsByUserId(Long userId);
+    List<PaymentResponse> getPaymentsByUserAuthenticated();
+
     PaymentResponse createPayment(PaymentRequest item);
 
     PaymentResponse updatePayment(Long id, PaymentUpdateRequest item);

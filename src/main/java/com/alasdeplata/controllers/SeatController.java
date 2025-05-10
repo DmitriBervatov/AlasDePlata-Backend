@@ -1,5 +1,6 @@
 package com.alasdeplata.controllers;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,6 +42,12 @@ public class SeatController {
     public ResponseEntity<SeatResponse> getById(@PathVariable() Long id) {
         Optional<SeatResponse> seat = seatService.getSeatById(id);
         return seat.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+    @GetMapping("{id}/extra")
+    public ResponseEntity<BigDecimal> getSeatExtra(@PathVariable Long id) {
+        BigDecimal extra = seatService.getSeatExtraById(id);
+        return ResponseEntity.ok(extra);
     }
 
     @PostMapping

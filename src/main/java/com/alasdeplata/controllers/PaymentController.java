@@ -40,6 +40,12 @@ public class PaymentController {
         return ResponseEntity.ok(payment);
     }
 
+    @GetMapping("/user")
+    public ResponseEntity<List<PaymentResponse>> getByUserAuthenticated() {
+        List<PaymentResponse> payments = paymentService.getPaymentsByUserAuthenticated();
+        return ResponseEntity.ok(payments);
+    }
+
     @PostMapping
     public ResponseEntity<PaymentResponse> create(@Valid @RequestBody PaymentRequest item) {
         PaymentResponse payment = paymentService.createPayment(item);

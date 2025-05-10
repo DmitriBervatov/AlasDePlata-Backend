@@ -11,6 +11,7 @@ public record PaymentRequest(
                 @NotNull Long reservationId,
                 @NotNull BigDecimal amount,
                 @NotNull LocalDateTime paymentDate,
-                @NotNull PaymentMethod paymentMethod) {
+                @NotNull PaymentMethod paymentMethod,
+                @NotNull String currency) {
 
 }
